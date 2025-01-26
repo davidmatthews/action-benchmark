@@ -1,0 +1,31 @@
+name: Run Docker on Multiple Platforms
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-docker-linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Geekbench Container
+        run: davidmatthews/geekbench:latest
+
+  run-docker-windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Run Geekbench Container
+        run: docker run davidmatthews/geekbench:latest
+
+  run-docker-macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - name: Start Docker Daemon
+        run: |
+          open /Applications/Docker.app
+          while ! docker system info > /dev/null 2>&1; do sleep 1; done
+
+      - name: Run Geekbench Container
+        run: davidmatthews/geekbench:latest
