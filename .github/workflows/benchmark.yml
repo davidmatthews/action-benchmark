@@ -17,7 +17,7 @@ jobs:
 
       - name: Run Geekbench
         run: |
-          ./Geekbench-6.0.0-Linux/geekbench6
+          ./Geekbench-6.3.0-Linux/geekbench6
 
   run-geekbench-windows:
     name: Run Geekbench on Windows
@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Install Geekbench
         run: |
-          Invoke-WebRequest -Uri https://cdn.geekbench.com/Geekbench-6.3.0-WindowsSetup.exe -OutFile Geekbench-6.0.0-WindowsSetup.exe
+          Invoke-WebRequest -Uri https://cdn.geekbench.com/Geekbench-6.3.0-WindowsSetup.exe -OutFile Geekbench-6.3.0-WindowsSetup.exe
           Start-Process -FilePath Geekbench-6.3.0-WindowsSetup.exe -ArgumentList "/S" -Wait
 
       - name: Run Geekbench
@@ -39,6 +39,7 @@ jobs:
       - name: Install Geekbench
         run: |
           curl -O https://cdn.geekbench.com/Geekbench-6.3.0-Mac.zip
+          ls -la
           unzip Geekbench-6.3.0-Mac.zip
 
       - name: Run Geekbench
