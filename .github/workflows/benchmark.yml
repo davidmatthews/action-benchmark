@@ -30,7 +30,7 @@ jobs:
 
       - name: Verify Installation Path and List Files
         run: |
-          dir "C:\Program Files\Geekbench 6"
+          dir "C:\Program Files"
 
       - name: Run Geekbench
         run: |
