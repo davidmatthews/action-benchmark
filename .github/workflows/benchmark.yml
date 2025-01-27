@@ -11,13 +11,6 @@ jobs:
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
 
-  run-docker-windows:
-    name: Windows
-    runs-on: windows-latest
-    steps:
-      - name: Run Geekbench Container
-        run: docker run davidmatthews/geekbench:latest
-
   run-docker-macos:
     name: macOS
     runs-on: macos-latest
