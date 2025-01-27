@@ -47,4 +47,5 @@ jobs:
 
       - name: Run Geekbench
         run: |
-          ./Geekbench\ 6.app/Contents/MacOS/Geekbench\ 6
+          ./Geekbench\ 6.app/Contents/MacOS/Geekbench\ 6 --run > geekbench_output.log 2>&1
+          cat geekbench_output.log
