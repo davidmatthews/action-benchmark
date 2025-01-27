@@ -28,9 +28,13 @@ jobs:
           Invoke-WebRequest -Uri https://cdn.geekbench.com/Geekbench-6.3.0-WindowsSetup.exe -OutFile Geekbench-6.3.0-WindowsSetup.exe
           Start-Process -FilePath Geekbench-6.3.0-WindowsSetup.exe -ArgumentList "/S" -Wait
 
+      - name: Verify Installation Path
+        run: |
+          Get-ChildItem -Path "C:\\Program Files" -Recurse | Where-Object { $_.Name -like 'geekbench6.exe' }
+
       - name: Run Geekbench
         run: |
-          & "C:\\Program Files\\Geekbench 6\\geekbench6.exe"
+          Start-Process -FilePath \"C:\\Program Files\\Geekbench 6\\geekbench6.exe\" -NoNewWindow -Wait
 
   run-geekbench-macos:
     name: Run Geekbench on macOS
