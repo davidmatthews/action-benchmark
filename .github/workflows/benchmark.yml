@@ -47,4 +47,4 @@ jobs:
 
       - name: Run Geekbench
         run: |
-          ./Geekbench\ 6.app/Contents/MacOS/Geekbench 6
+          ./Geekbench\ 6.app/Contents/MacOS/Geekbench\ 6
