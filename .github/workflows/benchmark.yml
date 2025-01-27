@@ -1,31 +1,46 @@
-name: Run Docker on Multiple Platforms
+name: Run Geekbench on Multiple Platforms
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-docker-linux:
-    name: Linux
+  run-geekbench-linux:
+    name: Run Geekbench on Linux
     runs-on: ubuntu-latest
     steps:
-      - name: Run Geekbench Container
-        run: davidmatthews/geekbench:latest
+      - name: Install Geekbench
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://cdn.geekbench.com/Geekbench-6.3.0-Linux.tar.gz
+          tar -xvzf Geekbench-6.3.0-Linux.tar.gz
 
-  run-docker-windows:
-    name: Windows
+      - name: Run Geekbench
+        run: |
+          ./Geekbench-6.0.0-Linux/geekbench6
+
+  run-geekbench-windows:
+    name: Run Geekbench on Windows
     runs-on: windows-latest
     steps:
-      - name: Run Geekbench Container
-        run: docker run davidmatthews/geekbench:latest
+      - name: Install Geekbench
+        run: |
+          Invoke-WebRequest -Uri https://cdn.geekbench.com/Geekbench-6.3.0-WindowsSetup.exe -OutFile Geekbench-6.0.0-WindowsSetup.exe
+          Start-Process -FilePath Geekbench-6.3.0-WindowsSetup.exe -ArgumentList "/S" -Wait
 
-  run-docker-macos:
-    name: macOS
+      - name: Run Geekbench
+        run: |
+          & "C:\\Program Files\\Geekbench 6\\geekbench6.exe"
+
+  run-geekbench-macos:
+    name: Run Geekbench on macOS
     runs-on: macos-latest
     steps:
-      - name: Start Docker Daemon
+      - name: Install Geekbench
         run: |
-          open /Applications/Docker.app
-          while ! docker system info > /dev/null 2>&1; do sleep 1; done
+          curl -O https://cdn.geekbench.com/Geekbench-6.3.0-Mac.zip
+          unzip Geekbench-6.0.0-Mac.zip
 
-      - name: Run Geekbench Container
-        run: davidmatthews/geekbench:latest
+      - name: Run Geekbench
+        run: |
+          ./Geekbench\ 6.app/Contents/MacOS/geekbench6
