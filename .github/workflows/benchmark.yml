@@ -39,7 +39,7 @@ jobs:
       - name: Install Geekbench
         run: |
           curl -O https://cdn.geekbench.com/Geekbench-6.3.0-Mac.zip
-          unzip Geekbench-6.0.0-Mac.zip
+          unzip Geekbench-6.3.0-Mac.zip
 
       - name: Run Geekbench
         run: |
