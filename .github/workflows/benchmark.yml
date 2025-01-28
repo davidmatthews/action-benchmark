@@ -25,7 +25,7 @@ jobs:
   
       - name: Start Colima
         run: |
-          colima start --debug --cpu 2 --memory 4 --disk 20
+          colima start --cpu 2 --memory 4 --disk 20
 
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
