@@ -30,7 +30,7 @@ jobs:
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
           START_TIME=$(date +%s.%N)
-          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          ffmpeg -i "$FILE_NAME" -c:v libx265 -crf 20 -preset slow -x265-params "level=4.1:high-tier=1:repeat-headers=1:aud=1:hrd=1:deblock=-3,-3:no-open-gop=1:no-sao=1" -c:a copy -c:s copy output.mp4
           END_TIME=$(date +%s.%N)
           ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
 
@@ -58,7 +58,7 @@ jobs:
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
           START_TIME=$(date +%s.%N)
-          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          ffmpeg -i "$FILE_NAME" -c:v libx265 -crf 20 -preset slow -x265-params "level=4.1:high-tier=1:repeat-headers=1:aud=1:hrd=1:deblock=-3,-3:no-open-gop=1:no-sao=1" -c:a copy -c:s copy output.mp4
           END_TIME=$(date +%s.%N)
           ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
 
@@ -86,7 +86,7 @@ jobs:
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
           START_TIME=$(date +%s.%N)
-          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          ffmpeg -i "$FILE_NAME" -c:v libx265 -crf 20 -preset slow -x265-params "level=4.1:high-tier=1:repeat-headers=1:aud=1:hrd=1:deblock=-3,-3:no-open-gop=1:no-sao=1" -c:a copy -c:s copy output.mp4
           END_TIME=$(date +%s.%N)
           ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
 
@@ -114,7 +114,7 @@ jobs:
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
           START_TIME=$(date +%s.%N)
-          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          ffmpeg -i "$FILE_NAME" -c:v libx265 -crf 20 -preset slow -x265-params "level=4.1:high-tier=1:repeat-headers=1:aud=1:hrd=1:deblock=-3,-3:no-open-gop=1:no-sao=1" -c:a copy -c:s copy output.mp4
           END_TIME=$(date +%s.%N)
           ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
 
