@@ -13,7 +13,7 @@ jobs:
 
   run-docker-macos:
     name: macOS
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - name: Install Homebrew
         run: |
