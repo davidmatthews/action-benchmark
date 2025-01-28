@@ -35,10 +35,66 @@ jobs:
           ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
 
           echo "Encoding time: $ELAPSED_TIME seconds"
+  
+  linux-arm-ffmpeg-encode:
+    name: Linux (ARM)
+    runs-on: ubuntu-24.04-arm
 
-  macos-ffmpeg-encode:
-    name: macOS
+    steps:
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          START_TIME=$(date +%s.%N)
+          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          END_TIME=$(date +%s.%N)
+          ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+
+          echo "Encoding time: $ELAPSED_TIME seconds"
+
+  macos-m1-ffmpeg-encode:
+    name: macOS (M1)
     runs-on: macos-latest
+
+    steps:
+      - name: Install FFmpeg
+        run: |
+          brew update
+          brew install ffmpeg
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          START_TIME=$(date +%s.%N)
+          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          END_TIME=$(date +%s.%N)
+          ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+
+          echo "Encoding time: $ELAPSED_TIME seconds"
+
+  macos-intel-ffmpeg-encode:
+    name: macOS (Intel)
+    runs-on: macos-13
 
     steps:
       - name: Install FFmpeg
