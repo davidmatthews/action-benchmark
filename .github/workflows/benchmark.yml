@@ -25,7 +25,13 @@ jobs:
   
       - name: Start Colima
         run: |
-          colima start
+          colima start --debug --cpu 2 --memory 4 --disk 20
 
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
+
+      - name: Check Colima Logs on Failure
+        if: failure()
+        run: |
+          cat /Users/runner/.colima/_lima/colima/ha.stderr.log || echo "No logs found"
+          cat /Users/runner/.colima/_lima/colima/serial*.log || echo "No logs found"
