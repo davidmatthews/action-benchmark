@@ -1,0 +1,65 @@
+name: FFmpeg Video Encoding
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "The URL of the video to download and encode"
+        required: true
+
+jobs:
+  linux-ffmpeg-encode:
+    name: Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          START_TIME=$(date +%s.%N)
+          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          END_TIME=$(date +%s.%N)
+          ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+
+          echo "Encoding time: $ELAPSED_TIME seconds"
+
+  macos-ffmpeg-encode:
+    name: macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Install FFmpeg
+        run: |
+          brew update
+          brew install ffmpeg
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          START_TIME=$(date +%s.%N)
+          ffmpeg -i "$FILE_NAME" -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
+          END_TIME=$(date +%s.%N)
+          ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+
+          echo "Encoding time: $ELAPSED_TIME seconds"
