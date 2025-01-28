@@ -11,7 +11,7 @@ jobs:
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
 
-  run-docker-linux:
+  run-docker-linux-arm:
     name: Linux (ARM)
     runs-on: ubuntu-24.04-arm
     steps:
