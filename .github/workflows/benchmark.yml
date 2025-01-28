@@ -6,7 +6,14 @@ on:
 jobs:
   run-docker-linux:
     name: Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run Geekbench Container
+        run: docker run davidmatthews/geekbench:latest
+
+  run-docker-linux:
+    name: Linux (ARM)
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
@@ -25,7 +32,7 @@ jobs:
   
       - name: Start Colima
         run: |
-          colima start --cpu 2 --memory 4 --disk 20
+          colima start --cpu 4 --memory 8
 
       - name: Run Geekbench Container
         run: docker run davidmatthews/geekbench:latest
