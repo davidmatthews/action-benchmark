@@ -1,4 +1,4 @@
-name: Run Docker on Multiple Platforms
+name: Run Geekbench in Docker
 
 on:
   workflow_dispatch:
