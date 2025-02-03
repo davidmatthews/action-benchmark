@@ -1,0 +1,142 @@
+name: Handbrake Video Encoding
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "The URL of the video to download and encode"
+        required: true
+      preset_url:
+        description: "The URL of the Handbrake preset to use in the encode"
+        required: true
+
+jobs:
+  linux:
+    name: Linux (Docker)
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with Handbrake
+        id: handbrake_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          docker run --rm -v "$(pwd)":/data davidmatthews/handbrake-cli $FILE_NAME
+  
+  linux-arm:
+    name: Linux (ARM Docker)
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Encode Video with Handbrake
+        id: handbrake_encode
+        run: |
+          FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
+          docker run --rm -v "$(pwd)":/data davidmatthews/handbrake-cli $FILE_NAME
+
+  macos-m1:
+    name: macOS (M1)
+    runs-on: macos-latest
+
+    steps:
+      - name: Download HandBrakeCLI
+        run: curl -L -o HandBrakeCLI.dmg "https://github.com/HandBrake/HandBrake/releases/download/1.9.0/HandBrakeCLI-1.9.0.dmg"
+
+      - name: Install HandBrakeCLI
+        run: |
+          hdiutil attach HandBrakeCLI-1.9.0.dmg
+          sudo cp -R /Volumes/HandBrakeCLI/HandBrakeCLI /usr/local/bin/
+          hdiutil detach /Volumes/HandBrakeCLI
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Download Preset
+        run: |
+          PRESET_URL="${{ github.event.inputs.preset_url }}"
+          curl -L "$PRESET_URL" -o custom-preset.json
+          echo "Downloaded preset as custom-preset.json
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset 
+
+  macos-intel:
+    name: macOS (Intel)
+    runs-on: macos-13
+
+    steps:
+      - name: Download HandBrakeCLI
+        run: curl -L -o HandBrakeCLI.dmg "https://github.com/HandBrake/HandBrake/releases/download/1.9.0/HandBrakeCLI-1.9.0.dmg"
+
+      - name: Install HandBrakeCLI
+        run: |
+          hdiutil attach HandBrakeCLI-1.9.0.dmg
+          sudo cp -R /Volumes/HandBrakeCLI/HandBrakeCLI /usr/local/bin/
+          hdiutil detach /Volumes/HandBrakeCLI
+
+      - name: Download Video
+        run: |
+          VIDEO_URL="${{ github.event.inputs.video_url }}"
+          FILE_NAME=$(basename "$VIDEO_URL")
+          curl -L "$VIDEO_URL" -o "$FILE_NAME"
+          echo "Downloaded video as $FILE_NAME"
+
+      - name: Download Preset
+        run: |
+          PRESET_URL="${{ github.event.inputs.preset_url }}"
+          curl -L "$PRESET_URL" -o custom-preset.json
+          echo "Downloaded preset as custom-preset.json
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Install HandBrakeCLI
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/HandBrake/HandBrake/releases/download/1.9.0/HandBrakeCLI-1.9.0-win-x86_64.zip" -OutFile "HandBrakeCLI.zip"
+          Expand-Archive -Path "HandBrakeCLI.zip" -DestinationPath "HandBrakeCLI"
+
+      - name: Download Video
+        run: |
+          $video_url="${{ github.event.inputs.video_url }}"
+          $file_name = $url -split "/" | Select-Object -Last 1  # Extract filename
+          Invoke-WebRequest -Uri $video_url -OutFile $file_name
+          echo "VIDEO_FILE=$file_name" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Download Preset
+        run: |
+          $preset_url="${{ github.event.inputs.preset_url }}"
+          Invoke-WebRequest -Uri $video_url -OutFile custom-preset.json
+          echo "Downloaded preset as custom-preset.json
+
+      - name: Encode Video with FFmpeg
+        id: ffmpeg_encode
+        run: |
+          .\HandBrakeCLI\HandBrakeCLI.exe -i "%VIDEO_FILE%" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset
+          
