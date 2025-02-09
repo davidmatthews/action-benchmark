@@ -127,6 +127,7 @@ jobs:
           $video_url="${{ github.event.inputs.video_url }}"
           $file_name = $video_url -split "/" | Select-Object -Last 1  # Extract filename
           Invoke-WebRequest -Uri $video_url -OutFile $file_name
+          echo "VIDEO_FILE=$file_name" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Download Preset
         run: |
@@ -136,5 +137,7 @@ jobs:
       - name: Encode Video with FFmpeg
         id: ffmpeg_encode
         run: |
-          .\HandBrakeCLI\HandBrakeCLI.exe -i "%VIDEO_FILE%" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset
+          ls -la
+          .\HandBrakeCLI\HandBrakeCLI.exe --preset-import-file custom-preset.json --preset-list
+          .\HandBrakeCLI\HandBrakeCLI.exe -i "$env:VIDEO_FILE" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset
           
