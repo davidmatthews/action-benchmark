@@ -42,6 +42,7 @@ jobs:
       - name: Encode Video with HandBrake
         id: handbrake_encode
         run: |
+          uname -m
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
           docker run --rm -v "$(pwd)":/data davidmatthews/handbrake-cli $FILE_NAME
 
@@ -73,7 +74,10 @@ jobs:
         id: ffmpeg_encode
         run: |
           mv handbrake-presets/1080p.json .
+          ls -l
           HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset 1080p
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset "1080p"
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file "1080p.json" --preset "1080p"
 
   macos-intel:
     name: macOS (Intel)
