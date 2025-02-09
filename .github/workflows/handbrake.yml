@@ -125,7 +125,7 @@ jobs:
       - name: Download Video
         run: |
           $video_url="${{ github.event.inputs.video_url }}"
-          $file_name = $url -split "/" | Select-Object -Last 1  # Extract filename
+          $file_name = $video_url -split "/" | Select-Object -Last 1  # Extract filename
           Write-Host "Video URL: $video_url"
           Write-Host "File name: $file_name"
           Invoke-WebRequest -Uri $video_url -OutFile $file_name
