@@ -59,8 +59,8 @@ jobs:
       - name: Install HandBrakeCLI
         run: |
           hdiutil attach HandBrakeCLI-1.9.0.dmg
-          sudo cp -R /Volumes/HandBrakeCLI/HandBrakeCLI /usr/local/bin/
-          hdiutil detach /Volumes/HandBrakeCLI
+          sudo cp -R /Volumes/HandBrakeCLI-1.9.0/HandBrakeCLI /usr/local/bin/
+          hdiutil detach /Volumes/HandBrakeCLI-1.9.0
 
       - name: Download Video
         run: |
@@ -89,8 +89,8 @@ jobs:
       - name: Install HandBrakeCLI
         run: |
           hdiutil attach HandBrakeCLI-1.9.0.dmg
-          sudo cp -R /Volumes/HandBrakeCLI/HandBrakeCLI /usr/local/bin/
-          hdiutil detach /Volumes/HandBrakeCLI
+          sudo cp -R /Volumes/HandBrakeCLI-1.9.0/HandBrakeCLI /usr/local/bin/
+          hdiutil detach /Volumes/HandBrakeCLI-1.9.0
 
       - name: Download Video
         run: |
