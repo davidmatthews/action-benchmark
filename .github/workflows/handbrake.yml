@@ -131,7 +131,7 @@ jobs:
       - name: Download Preset
         run: |
           $preset_url="${{ github.event.inputs.preset_url }}"
-          Invoke-WebRequest -Uri $video_url -OutFile custom-preset.json
+          Invoke-WebRequest -Uri $preset_url -OutFile custom-preset.json
 
       - name: Encode Video with FFmpeg
         id: ffmpeg_encode
