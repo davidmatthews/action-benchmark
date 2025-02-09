@@ -72,7 +72,8 @@ jobs:
       - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
-          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file handbrake-presets/1080p.json --preset 1080p
+          mv handbrake-presets/1080p.json .
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset 1080p
 
   macos-intel:
     name: macOS (Intel)
@@ -101,7 +102,8 @@ jobs:
       - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
-          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file handbrake-presets/1080p.json --preset 1080p
+          mv handbrake-presets/1080p.json .
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset 1080p
 
   windows:
     name: Windows
@@ -126,5 +128,6 @@ jobs:
       - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
-          .\HandBrakeCLI\HandBrakeCLI.exe -i "$env:VIDEO_FILE" -o output.mkv --preset-import-file handbrake-presets\1080p.json --preset 1080p
+          Move-Item -Path handbrake-presets\1080p.json -Destination .
+          .\HandBrakeCLI\HandBrakeCLI.exe -i "$env:VIDEO_FILE" -o output.mkv --preset-import-file 1080p.json --preset 1080p
           
