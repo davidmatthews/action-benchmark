@@ -128,6 +128,7 @@ jobs:
       - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
+          ls
           Move-Item -Path handbrake-presets\1080p.json -Destination .
           .\HandBrakeCLI\HandBrakeCLI.exe -i "$env:VIDEO_FILE" -o output.mkv --preset-import-file 1080p.json --preset 1080p
           
