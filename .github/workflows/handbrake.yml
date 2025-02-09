@@ -6,11 +6,9 @@ on:
       video_url:
         description: "The URL of the video to download and encode"
         required: true
-        default: ${{ env.TEST_VIDEO_URL }}
       preset_url:
         description: "The URL of the Handbrake preset to use in the encode"
         required: true
-        default: ${{ env.TEST_PRESET_URL }}
 
 jobs:
   linux:
