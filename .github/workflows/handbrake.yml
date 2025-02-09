@@ -76,6 +76,8 @@ jobs:
           mv handbrake-presets/1080p.json .
           ls -l
           HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset 1080p
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset=1080p
+          HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file 1080p.json --preset="1080p"
           HandBrakeCLI --preset-import-file 1080p.json --preset-list
 
   macos-intel:
