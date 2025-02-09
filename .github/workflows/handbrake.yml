@@ -1,4 +1,4 @@
-name: Handbrake Video Encoding
+name: HandBrake Video Encoding
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
         description: "The URL of the video to download and encode"
         required: true
       preset_url:
-        description: "The URL of the Handbrake preset to use in the encode"
+        description: "The URL of the HandBrake preset to use in the encode"
         required: true
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           curl -L "$VIDEO_URL" -o "$FILE_NAME"
           echo "Downloaded video as $FILE_NAME"
 
-      - name: Encode Video with Handbrake
+      - name: Encode Video with HandBrake
         id: handbrake_encode
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
@@ -42,7 +42,7 @@ jobs:
           curl -L "$VIDEO_URL" -o "$FILE_NAME"
           echo "Downloaded video as $FILE_NAME"
 
-      - name: Encode Video with Handbrake
+      - name: Encode Video with HandBrake
         id: handbrake_encode
         run: |
           FILE_NAME=$(basename "${{ github.event.inputs.video_url }}")
@@ -75,7 +75,7 @@ jobs:
           curl -L "$PRESET_URL" -o custom-preset.json
           echo "Downloaded preset as custom-preset.json
 
-      - name: Encode Video with FFmpeg
+      - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
           HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset 
@@ -107,7 +107,7 @@ jobs:
           curl -L "$PRESET_URL" -o custom-preset.json
           echo "Downloaded preset as custom-preset.json
 
-      - name: Encode Video with FFmpeg
+      - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
           HandBrakeCLI -i "$FILE_NAME" -o output.mkv --preset-import-file custom-preset.json --preset custom-preset
@@ -134,7 +134,7 @@ jobs:
           $preset_url="${{ github.event.inputs.preset_url }}"
           Invoke-WebRequest -Uri $preset_url -OutFile custom-preset.json
 
-      - name: Encode Video with FFmpeg
+      - name: Encode Video with HandBrake
         id: ffmpeg_encode
         run: |
           ls -la
