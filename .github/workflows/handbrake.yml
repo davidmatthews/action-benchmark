@@ -126,16 +126,12 @@ jobs:
         run: |
           $video_url="${{ github.event.inputs.video_url }}"
           $file_name = $video_url -split "/" | Select-Object -Last 1  # Extract filename
-          Write-Host "Video URL: $video_url"
-          Write-Host "File name: $file_name"
           Invoke-WebRequest -Uri $video_url -OutFile $file_name
-          echo "VIDEO_FILE=$file_name" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Download Preset
         run: |
           $preset_url="${{ github.event.inputs.preset_url }}"
           Invoke-WebRequest -Uri $video_url -OutFile custom-preset.json
-          echo "Downloaded preset as custom-preset.json
 
       - name: Encode Video with FFmpeg
         id: ffmpeg_encode
